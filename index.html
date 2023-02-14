@@ -37,30 +37,29 @@
 	<h3>Outline</h3>
 	<ul>
 		<li>Background</li>
-		<li>Categories of testing</li>
-		<li>Unit Testing</li>
-		<li>Coverage</li>
-		<li>System-level testing</li>
+		<li>Transition systems</li>
+		<li>Model checking</li>
+		<li>Deductive Verfication</li>
 	</ul>
 </section>
 
 <section>
 	<h3>Background</h3>
 	<ul>
-		<li><emph>Testing</emph> as <emph>dynamic verification</emph></li>
+		<li class="fragment fade-up"><emph>Testing</emph> as <emph>dynamic verification</emph></li>
 		<ul>
-			<li>Trying out the program on different inputs</li>
-			<li>Actually running the program</li>
+			<li class="fragment fade-up">Trying out the program on different inputs</li>
+			<li class="fragment fade-up">Actually running the program</li>
 		</ul>
-		<li><emph>Static verfication</emph></li>
+		<li class="fragment fade-up"><emph>Static verification</emph></li>
 		<ul>
-			<li>Analyzed program is not run</li>
-			<li>Reason on <emph>mathemtical model</emph> of our program (states)</li>
+			<li class="fragment fade-up">Analysed program is not run</li>
+			<li class="fragment fade-up">Reason on <emph>mathematical model</emph> of our program (states)</li>
 		</ul>
-		<li>There are also mixed approaches</li>
+		<li class="fragment fade-up">There are also mixed approaches</li>
 		<ul>
-			<li>Automatic test generation from code structure</li>
-			<li>Observers</li>
+			<li class="fragment fade-up">Automatic test generation from code structure</li>
+			<li class="fragment fade-up">Observers</li>
 		</ul>
 	</ul>
 </section>
@@ -101,44 +100,44 @@
 <section>
 	<h3>What is <emph>correct</emph>?</h3>
 	<ul>
-		<li>Intuitively, a <emph>mathemtical proof</emph> has been found that given properties hold</li>
-		<li>All preconditions are respected</li>
-		<li>All postconditions are always true</li>
-		<li>Different from testing</li>
+		<li class="fragment fade-up">Intuitively, a <emph>mathematical proof</emph> has been found that given properties hold</li>
+		<li class="fragment fade-up">All preconditions are respected</li>
+		<li class="fragment fade-up">All postconditions are always true</li>
+		<li class="fragment fade-up">Different from testing</li>
 		<ul>
-			<li><emph>All</emph> possible program inputs and scenarios considered</li>
-			<li>However: usually assume correctness of compiler, OS, HW, ...</li>
+			<li class="fragment fade-up"><emph>All</emph> possible program inputs and scenarios considered</li>
+			<li class="fragment fade-up">However: usually assume correctness of compiler, OS, HW, ...</li>
 		</ul>
 	</ul>
 </section>
 
 <section>
-	<h3>Verificaiton vs Bug Finding</h3>
+	<h3>Verification vs Bug Finding</h3>
 	<ul>
-		<li>Usually tools/method focus either on</li>
+		<li class="fragment fade-up">Often tools/methods focus either on</li>
 		<ul>
-			<li>Systematically looking for bugs</li>
-			<li>Verifying the absence of bugs</li>
+			<li class="fragment fade-up">Systematically looking for bugs</li>
+			<li class="fragment fade-up">Verifying the absence of bugs</li>
 		</ul>
-		<li>First can usually not guarantee anything when no bugs are found</li>
-		<li>Second usually fails when bugs are encountered</li>
-		<li>Some tools/methods target both at the same time</li>
+		<li class="fragment fade-up">First can usually not guarantee anything when no bugs are found</li>
+		<li class="fragment fade-up">Second usually fails when bugs are encountered</li>
+		<li class="fragment fade-up">Some tools/methods target both at the same time</li>
 	</ul>
 </section>
 
 <section>
 	<h3>Deductive Verification</h3>
 	<ul>
-		<li>Oldest approach to verification (going back to Turing)</li>
-		<li>Requires <emph>expertise + high effort</emph></li>
+		<li class="fragment fade-up">Oldest approach to verification (going back to Turing)</li>
+		<li class="fragment fade-up">Requires <emph>expertise + high effort</emph></li>
 		<ul>
-			<li>Usually need to annotate programs (invariants, ...)</li>
-			<li>Development philosophy ("Formal methods")</li>
+			<li class="fragment fade-up">Usually need to annotate programs (invariants, ...)</li>
+			<li class="fragment fade-up">Development philosophy ("Formal methods")</li>
 		</ul>
-		<li>Success stories:</li>
+		<li class="fragment fade-up">Success stories:</li>
 		<ul>
-			<li>L4 kernel</li>
-			<li>Paris Métro 14 (driverless)</li>
+			<li class="fragment fade-up">L4 kernel</li>
+			<li class="fragment fade-up">Paris Métro 14 (driverless)</li>
 		</ul>
 	</ul>
 </section>
@@ -146,16 +145,16 @@
 <section>
 	<h3>Abstract interpretation</h3>
 	<ul>
-		<li>Techniques based on fixed-point computation</li>
-		<li>Good for "weaker" properties</li>
+		<li class="fragment fade-up">Techniques based on fixed-point computation</li>
+		<li class="fragment fade-up">Good for "weaker" properties</li>
 		<ul>
-			<li>Absence of arithmetic overflows</li>
-			<li>Absence of runtime exceptions</li>
+			<li class="fragment fade-up">Absence of arithmetic overflows</li>
+			<li class="fragment fade-up">Absence of runtime exceptions</li>
 		</ul>
-		<li>Automatic, scalable, widely used by compilers</li>
-		<li>Success stories</li>
+		<li class="fragment fade-up">Automatic, scalable, widely used by compilers</li>
+		<li class="fragment fade-up">Success stories</li>
 		<ul>
-			<li>Astrée could verify primary flight control system or Airbus A340, A380</li>
+			<li class="fragment fade-up">Astrée could verify primary flight control system of Airbus A340, A380</li>
 		</ul>
 	</ul>
 </section>
@@ -163,12 +162,12 @@
 <section>
 	<h3>Model Checking</h3>
 	<ul>
-		<li>Techniques based on (systematic) state-space exploration</li>
-		<li>Many different flavours</li>
-		<li>Success stories</li>
+		<li class="fragment fade-up">Techniques based on (systematic) state-space exploration</li>
+		<li class="fragment fade-up">Many different flavours</li>
+		<li class="fragment fade-up">Success stories</li>
 		<ul>
-			<li>Hardware verification</li>
-			<li>UPPAAL</li>
+			<li class="fragment fade-up">Hardware verification</li>
+			<li class="fragment fade-up">UPPAAL</li>
 		</ul>
 	</ul>
 </section>
@@ -176,28 +175,28 @@
 <section>
 	<h3>Heuristic bug finders</h3>
 	<ul>
-		<li>Usually based on a combination of mentioned methods</li>
-		<li>Mainly focussing on <emph>implicit</emph> specifications</li>
-		<li>Sometimes face problems only reporting <emph>genuine</emph> bugs</li>
-		<li>Related to <emph>fuzzing</emph></li>
+		<li class="fragment fade-up">Usually based on a combination of mentioned methods</li>
+		<li class="fragment fade-up">Mainly focussing on <emph>implicit</emph> specifications</li>
+		<li class="fragment fade-up">Sometimes difficult to only report <emph>genuine</emph> bugs</li>
+		<li class="fragment fade-up">Related to <emph>fuzzing</emph></li>
 	</ul>
 </section>
 
 <section>
 	<h3>Transition systems</h3>
 	<ul>
-		<li>A way of capturing the program states</li>
-		<li>Mathemtically a tuple $(S, I, \rightarrow)$</li>
+		<li class="fragment fade-up">A way of capturing the program states</li>
+		<li class="fragment fade-up">Mathemtically a tuple $(S, I, \rightarrow)$</li>
 		<ul>
-			<li>State space $S$</li>
-			<li>Initial states $I \subseteq S$</li>
-			<li>Transitions $\rightarrow \subseteq S \times S$</li>
+			<li class="fragment fade-up">State space $S$</li>
+			<li class="fragment fade-up">Initial states $I \subseteq S$</li>
+			<li class="fragment fade-up">Transitions $\rightarrow \subseteq S \times S$</li>
 		</ul>
-		<li>Program as transition system</li>
+		<li class="fragment fade-up">Program as transition system</li>
 		<ul>
-			<li>$S = \text{ControlLocations} \times \text{VariableValuations}$</li>
-			<li>$I = \{\text{InitialControlState}\} \times \{\text{InitialValues}\}$</li>
-			<li>$\rightarrow = ...$</li>
+			<li class="fragment fade-up">$S = \text{ControlLocations} \times \text{VariableValuations}$</li>
+			<li class="fragment fade-up">$I = \{\text{InitialControlState}\} \times \{\text{InitialValues}\}$</li>
+			<li class="fragment fade-up">$\rightarrow = ...$</li>
 		</ul>
 	</ul>
 </section>
@@ -205,11 +204,11 @@
 <section>
 	<h3>Safety for transition system</h3>
 	<ul>
-		<li>Identify set $\text{Err} \subseteq S$ of <emph>error states</emph></li>
-		<li>System $(S, I, \rightarrow)$ is <emph>safe</emph> if there is no path 
+		<li class="fragment fade-up">Identify set $\text{Err} \subseteq S$ of <emph>error states</emph></li>
+		<li class="fragment fade-up">System $(S, I, \rightarrow)$ is <emph>safe</emph> if there is no path 
 			$s_0 \rightarrow s_1 \rightarrow ... \rightarrow s_n$ with $s_0 \in I$ and $s_n \in \text{Err}$</li>
-		<li>Safety of program = <emph>unreachability</emph> in graph $(S, \rightarrow)$</li>
-		<li>If no error state can be reached for any possible input, the program is safe</li>
+		<li class="fragment fade-up">Safety of program = <emph>unreachability</emph> in graph $(S, \rightarrow)$</li>
+		<li class="fragment fade-up">If no error state can be reached for any possible input, the program is safe</li>
 	</ul>
 </section>
 
@@ -233,12 +232,12 @@
 <section>
 	<h3>Explicit-state model checking</h3>
 	<ul>
-		<li>Explicitly construct graph $(S, I, \rightarrow)$</li>
-		<li>Check reachability of error states</li>
-		<li>Example tools: <emph>Spin</emph>, <emph>Java Path Finder</emph></li>
-		<li>Problem: <emph>state-space explosion</emph></li>
+		<li class="fragment fade-up">Explicitly construct graph $(S, I, \rightarrow)$</li>
+		<li class="fragment fade-up">Check reachability of error states</li>
+		<li class="fragment fade-up">Example tools: <emph>Spin</emph>, <emph>Java Path Finder</emph></li>
+		<li class="fragment fade-up">Problem: <emph>state-space explosion</emph></li>
 		<ul>
-			<li>E.g., program with ten 32-bit integers has $\geq 2^{320}$ states</li>
+			<li class="fragment fade-up">E.g., program with ten 32-bit integers has $\geq 2^{320}$ states</li>
 		</ul>
 	</ul>
 </section>
@@ -246,22 +245,22 @@
 <section>
 	<h3>Possible solutions</h3>
 	<ul>
-		<li>Symbolic model checking</li>
+		<li class="fragment fade-up">Symbolic Model Checking</li>
 		<ul>
-			<li>Represent graph $(S, I, \rightarrow)$ symbolically (usually using <emph>Binary Decision Diagrams (BDDs)</emph></li>
-			<li>Check for reachability of error states using fixed-point computations</li>
+			<li class="fragment fade-up">Represent graph $(S, I, \rightarrow)$ symbolically (usually using <emph>Binary Decision Diagrams (BDDs)</emph></li>
+			<li class="fragment fade-up">Check for reachability of error states using fixed-point computations</li>
 		</ul>
-		<li>Bounded model checking</li>
+		<li class="fragment fade-up">Bounded Model Checking</li>
 		<ul>
-			<li>Only analyse program up to some depth</li>
-			<li>Good at finding bugs, not unreachability</li>
-			<li>Today one of the most successful techniques</li>
+			<li class="fragment fade-up">Only analyse program up to some depth</li>
+			<li class="fragment fade-up">Good at finding bugs, not unreachability</li>
+			<li class="fragment fade-up">Today one of the most successful techniques</li>
 		</ul>
-		<li>Abstraction-based Model Checking</li>
+		<li class="fragment fade-up">Abstraction-based Model Checking</li>
 		<ul>
-			<li>Analyse a simplified <emph>abstraction</emph> of the transition system</li>
-			<li>Refine if the abstraction is too coarse</li>
-			<li>Particularly successful for software verification</li>
+			<li class="fragment fade-up">Analyse a simplified <emph>abstraction</emph> of the transition system</li>
+			<li class="fragment fade-up">Refine if the abstraction is too coarse</li>
+			<li class="fragment fade-up">Particularly successful for software verification</li>
 		</ul>
 	</ul>
 </section>
@@ -273,33 +272,33 @@
 <section>
 	<h3>Recap contracts</h3>
 	<ul>
-		<li>Contracts define <emph>pre</emph>- and <emph>postconditions</emph></li>
-		<li>For function contracts:</li>
+		<li class="fragment fade-up">Contracts define <emph>pre</emph>- and <emph>postconditions</emph></li>
+		<li class="fragment fade-up">For function contracts:</li>
 		<ul>
-			<li>Precondition must be upheld by the caller of the function</li>
-			<li>Postcondition must be guaranteed by the function</li>
+			<li class="fragment fade-up">Precondition must be upheld by the caller of the function</li>
+			<li class="fragment fade-up">Postcondition must be guaranteed by the function</li>
 		</ul>
-		<li>Contracts can also be put on individual statements</li>
+		<li class="fragment fade-up">Contracts can also be put on individual statements</li>
 		<ul>
-			<li>If precondition holds before executing statement $s$, then the postcondition must 
+			<li class="fragment fade-up">If precondition holds before executing statement $s$, then the postcondition must 
 				hold after execution of $s$ has finished
 			</li>
 		</ul>
-		<li>How can we apply this to C programs?</li>
+		<li class="fragment fade-up">How can we apply this to C programs?</li>
 	</ul>
 </section>
 
 <section>
 	<h3>Background</h3>
 	<ul>
-		<li>At each position (state) in a program we have a set of properties that are true</li>
-		<li>With each statement that we execute these properties change</li>
-		<li>Mathematical basis: <emph>Hoare logic</emph></li>
+		<li class="fragment fade-up">At each position (state) in a program we have a set of properties that are true</li>
+		<li class="fragment fade-up">With each statement that we execute these properties change</li>
+		<li class="fragment fade-up">Mathematical basis: <emph>Hoare logic</emph></li>
 		<ul>
-			<li><i>An Axiomatic Basis for Computer Programming</i> (Hoare, 1969)</li>
-			<li>Describe a computation step as a <emph>Hoare triple</emph> $\{P\}\; C \:\{Q\}$</li>
-			<li>Whenever property $P$ holds, then after executing $C$ (if $C$ terminates), $Q$ will hold</li>
-			<li>Example: $\{\Phi\}\; \textbf{nop} \:\{\Phi\}$</li>
+			<li class="fragment fade-up"><i>An Axiomatic Basis for Computer Programming</i> (Hoare, 1969)</li>
+			<li class="fragment fade-up">Describe a computation step as a <emph>Hoare triple</emph> $\{P\}\; C \:\{Q\}$</li>
+			<li class="fragment fade-up">Whenever property $P$ holds, then after executing $C$ (if $C$ terminates), $Q$ will hold</li>
+			<li class="fragment fade-up">Example: $\{\Phi\}\; \textbf{nop} \:\{\Phi\}$</li>
 		</ul>
 	</ul>
 </section>
@@ -307,14 +306,14 @@
 <section>
 	<h3>Background</h3>
 	<ul>
-		<li>Hoarse logic gives us a formulism, but no algorithm</li>
-		<li><emph>Weakest precondition calculus</emph></li>
+		<li class="fragment fade-up">Hoarse logic gives us a formalism, but no algorithm</li>
+		<li class="fragment fade-up"><emph>Weakest precondition calculus</emph></li>
 		<ul>
-			<li>Guarded commands, non-determinancy and formal derivation of programs (Dijkstra, 1975)</li>
+			<li class="fragment fade-up">Guarded commands, non-determinancy and formal derivation of programs (Dijkstra, 1975)</li>
 		</ul>
-		<li>Given the postcondition $Q$ and a computatio $C$, we can mechanically derive a <emph>weakest precondition</emph> $P'$</li>
-		<li>If $P \Rightarrow P'$ then we have proven the contract</li>
-		<li>Example: For $\{P\}\; x := a \:\{x = 42\}$ the weakest precondition is $\{a = 42\}$</li>
+		<li class="fragment fade-up">Given the postcondition $Q$ and a computatio $C$, we can mechanically derive a <emph>weakest precondition</emph> $P'$</li>
+		<li class="fragment fade-up">If $P \Rightarrow P'$ then we have proven the contract</li>
+		<li class="fragment fade-up">Example: For $\{P\}\; x := a \:\{x = 42\}$ the weakest precondition is $\{a = 42\}$</li>
 	</ul>
 </section>
 
@@ -441,17 +440,17 @@
 <section>
 	<h3>Inference rules</h3>
 	<ul>
-		<li>Composition of statements</li>
+		<li class="fragment fade-up">Composition of statements</li>
 		<ul>
-			<li>$\{P\}\; C_1 \;\{R\} \land \{R\} \; C_2 \;\{Q\} \Rightarrow \{P\}\:C_1; C_2\;\{Q\}$</li>
+			<li class="fragment fade-up">$\{P\}\; C_1 \;\{R\} \land \{R\} \; C_2 \;\{Q\} \Rightarrow \{P\}\:C_1; C_2\;\{Q\}$</li>
 		</ul>
-		<li>Assignment</li>
+		<li class="fragment fade-up">Assignment</li>
 		<ul>
-			<li>$\{Q[x \leftarrow E]\}\; x := E \; \{Q\}$</li>
+			<li class="fragment fade-up">$\{Q[x \leftarrow E]\}\; x := E \; \{Q\}$</li>
 		</ul>
-		<li>Conditional execution</li>
+		<li class="fragment fade-up">Conditional execution</li>
 		<ul>
-			<li>$\{P \land B\}\; C_1\;\{Q\} \land \{P \land \lnot B\}\; C_2 \; \{Q\} \Rightarrow \{P\}\; \text{if}\; B \;\text{then}\; C_1\; \text{else}\; C_2\; \{Q\}$</li>
+			<li class="fragment fade-up">$\{P \land B\}\; C_1\;\{Q\} \land \{P \land \lnot B\}\; C_2 \; \{Q\} \Rightarrow \{P\}\; \text{if}\; B \;\text{then}\; C_1\; \text{else}\; C_2\; \{Q\}$</li>
 		</ul>
 	</ul>
 </section>
@@ -459,7 +458,7 @@
 <section>
 	<h3>Example</h3>
 	<pre class="C"><code data-trim data-noescape data-line-numbers="">
-		/* { x >= 0 } */
+		/* { x >= 5 } */
 		
 		if (B) 
 			
@@ -468,7 +467,7 @@
 			
 			x = x - 4; 
 		
-		x = x / 2; 
+		x = x * 2; 
 		/* { x > 0 } */ 
 	</code></pre>
 </section>
@@ -476,7 +475,7 @@
 <section>
 	<h3>Example</h3>
 	<pre class="C"><code data-trim data-noescape data-line-numbers="">
-		/* { x >= 0 } */
+		/* { x >= 5 } */
 		
 		if (B) 
 			
@@ -485,7 +484,7 @@
 			
 			x = x - 4; 
 		/* { x * 2 > 0 } */ 
-		x = x / 2; 
+		x = x * 2; 
 		/* { x > 0 } */  
 	</code></pre>
 </section>
@@ -493,16 +492,16 @@
 <section>
 	<h3>Example</h3>
 	<pre class="C"><code data-trim data-noescape data-line-numbers="">
-		/* { x >= 0 } */
+		/* { x >= 5 } */
 		
 		if (B) 
 			
 			x = x - 2; 
 		else 
-			/* { x * 2 + 4 > 0 /\ !B } */ 
+			/* { (x - 4) * 2 > 0 /\ !B } */ 
 			x = x - 4; 
 		/* { x * 2 > 0 } */ 
-		x = x / 2; 
+		x = x * 2; 
 		/* { x > 0 } */  
 	</code></pre>
 </section>
@@ -510,16 +509,16 @@
 <section>
 	<h3>Example</h3>
 	<pre class="C"><code data-trim data-noescape data-line-numbers="">
-		/* { x >= 0 } */
+		/* { x >= 5 } */
 		
 		if (B) 
-			/* { x * 2 + 2 > 0 /\ B } */ 
+			/* { (x - 2) * 2 > 0 /\ B } */ 
 			x = x - 2; 
 		else 
-			/* { x * 2 + 4 > 0 /\ !B } */ 
+			/* { (x - 4) * 2 > 0 /\ !B } */ 
 			x = x - 4; 
-		/* { x * 2 > 0 } */ 
-		x = x / 2; 
+		/* { x  > 0 } */ 
+		x = x * 2; 
 		/* { x > 0 } */   
 	</code></pre>
 </section>
@@ -527,8 +526,25 @@
 <section>
 	<h3>Example</h3>
 	<pre class="C"><code data-trim data-noescape data-line-numbers="">
-		/* { x >= 0 } */
-		/* { x * 2 + 2 > 0 /\ x * 2 + 4 > 0 } */ 
+		/* { x >= 5 } */
+		/* { (x - 2) * 2 > 0 /\ (x - 4) * 2 > 0 } */ 
+		if (B) 
+			/* { (x + 2) * 2 > 0 /\ B } */ 
+			x = x - 2; 
+		else 
+			/* { x * 2 + 4 > 0 /\ !B } */ 
+			x = x - 4; 
+		/* { x * 2 > 0 } */ 
+		x = x / 2; 
+		/* { x > 0 } */ 
+	</code></pre>
+</section>
+
+<section>
+	<h3>Example</h3>
+	<pre class="C"><code data-trim data-noescape data-line-numbers="">
+		/* { x >= 5 } */
+		/* { x > 4 } */ 
 		if (B) 
 			/* { x * 2 + 2 > 0 /\ B } */ 
 			x = x - 2; 
@@ -544,25 +560,8 @@
 <section>
 	<h3>Example</h3>
 	<pre class="C"><code data-trim data-noescape data-line-numbers="">
-		/* { x >= 0 } */
-		/* { x > -1 } */ 
-		if (B) 
-			/* { x * 2 + 2 > 0 /\ B } */ 
-			x = x - 2; 
-		else 
-			/* { x * 2 + 4 > 0 /\ !B } */ 
-			x = x - 4; 
-		/* { x * 2 > 0 } */ 
-		x = x / 2; 
-		/* { x > 0 } */ 
-	</code></pre>
-</section>
-
-<section>
-	<h3>Example</h3>
-	<pre class="C"><code data-trim data-noescape data-line-numbers="">
-		/* { x >= 0 } => { x > -1 } */
-		/* { x > -1 } */ 
+		/* { x >= 5 } => { x > 4 } */
+		/* { x > 4 } */ 
 		if (B) 
 			/* { x * 2 + 2 > 0 /\ B } */ 
 			x = x - 2; 
@@ -578,36 +577,39 @@
 <section>
 	<h3>Loops</h3>
 	<ul>
-		<li>Loops are difficult</li>
-		<li>We usually have to provide two things</li>
-		<li><emph>Invariants</emph></li>
+		<li class="fragment fade-up">Loops are difficult</li>
+		<li class="fragment fade-up">We usually have to provide two things</li>
+		<li class="fragment fade-up"><emph>Invariants</emph></li>
 		<ul>
-			<li>Properties that are true in every loop iteration</li>
+			<li class="fragment fade-up">Properties that are true in every loop iteration</li>
 		</ul>
-		<li><emph>Variant</emph></li>
+		<li class="fragment fade-up"><emph>Variant</emph></li>
 		<ul>
-			<li>Something that changes with every loop iteration</li>
-			<li>Needed for termination proof</li>
-			<li>Loop variant needs to decrease monotonically</li>
+			<li class="fragment fade-up">Something that changes with every loop iteration</li>
+			<li class="fragment fade-up">Needed for termination proof</li>
+			<li class="fragment fade-up">Loop variant needs to decrease monotonically</li>
 		</ul>
-		<li>More in Lab 4!</li>
+		<li class="fragment fade-up">More in Lab 4!</li>
 	</ul>
 </section>
 
 <section>
 	<h3>Frama-C</h3>
 	<ul>
-		<li><emph>Fra</emph>mework for <emph>m</emph>odular <emph>a</emph>nalysis of <emph>C</emph> code</li>
-		<li>Collection of tools for working with C code in one framework</li>
-		<li>Each feature is a separate plugin</li>
-		<li>Rich set of included plugins:</li>
+		<li class="fragment fade-up"><emph>Fra</emph>mework for <emph>m</emph>odular <emph>a</emph>nalysis of <emph>C</emph> code</li>
+		<li class="fragment fade-up">Collection of tools for working with C projects</li>
+		<li class="fragment fade-up">Each feature is a separate plugin</li>
 		<ul>
-			<li>Code browsing (Metrics, callgraph, scope & dataflow analysis)</li>
-			<li>Code transformation (sparecode removal, slicing, constant folding)</li>
-			<li>Specification generation (RTE, Aorai)</li>
-			<li>Verification (weakest precondition, abstract interpretation)</li>
+			<li class="fragment fade-up">Code browsing (metrics, callgraph, scope & dataflow analysis)</li>
+			<li class="fragment fade-up">Code transformation (sparecode removal, slicing, constant folding)</li>
+			<li class="fragment fade-up">Specification generation (RTE, Aorai)</li>
+			<li class="fragment fade-up">Verification (weakest precondition, abstract interpretation)</li>
 		</ul>
-		<li>A Lesson on Verification of IoT Software with Frama-C (Blanchard et al, HPCS 2019)</li>
+		<li class="fragment fade-up">Highly recommended reading after lab 4:</li>
+		<ul>
+			<li class="fragment fade-up">A Lesson on Verification of IoT Software with Frama-C (Blanchard et al, HPCS 2019)</li>
+		</ul>
+		
 	</ul>
 </section>
 
