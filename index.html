@@ -1,0 +1,732 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Lecture 8</title>
+
+		<link rel="shortcut icon" type="image/x-icon" href="uu_logo/UU_logo_color-cropped.ico">
+
+		<link rel="stylesheet" href="reveal.js/dist/reset.css">
+		<link rel="stylesheet" href="reveal.js/dist/reveal.css">
+		<link rel="stylesheet" href="reveal.js/dist/theme/black.css">
+
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="atomic-one-dark.css">
+
+		<!-- Custom css -->
+		<link rel="stylesheet" href="style.css">
+	</head>
+	<body>
+		<img class="logo" src="uu_logo/UU_logo_vit-cropped.svg">
+		<div class="reveal">
+			<div class="slides">
+
+<!-- BEGIN SLIDES -->
+<section data-background-image="images/background.jpg" data-background-opacity="0.2">
+	<h1>Lecture 8</h1>
+	<p>Nikolaus Huber</p>
+</section>
+
+<section data-background-image="images/testing.jpg" data-background-opacity="0.2">
+	<h1>Testing</h1>
+</section>
+
+<section>
+	<h3>Outline</h3>
+	<ul>
+		<li>Background</li>
+		<li>Categories of testing</li>
+		<li>Unit Testing</li>
+		<li>Coverage</li>
+		<li>System-level testing</li>
+	</ul>
+</section>
+
+<section>
+	<h3>V&V Categories</h3>
+	<ul>
+		<li class="fragment fade-up">Testing is the most common approach to V&V</li>
+		<li class="fragment fade-up">Testing is a form of <emph>dynamic V&V</emph></li>
+		<li class="fragment fade-up">Other alternatives exist</li>
+		<ul>
+			<li class="fragment fade-up"><emph>Static V&V</emph> (next lecture)</li>
+			<li class="fragment fade-up">Code inspection and reviews</li>
+		</ul>
+	</ul>
+</section>
+
+<section>
+	<h3>Background</h3>
+	<ul>
+		<li class="fragment fade-up">Testing ideas/techniques are essential knowledge for all software developers</li>
+		<li class="fragment fade-up">Many projects spend more time on testing than implementation</li>
+		<li class="fragment fade-up">Testing is the primary method in industry to evaluate software</li>
+		<li class="fragment fade-up">Huge body of knowledge</li>
+		<ul>
+			<li class="fragment fade-up">Many different approaches (opinions)</li>
+		</ul>
+	</ul>
+</section>
+
+<section>
+	<h3>General setup</h3>
+	<ul>
+		<li class="fragment fade-up">Usual test procedure:</li>
+		<ul>
+			<li class="fragment fade-up">Define inputs to test</li>
+			<li class="fragment fade-up">Run test</li>
+			<li class="fragment fade-up">Analyse result</li>
+		</ul>
+		<li class="fragment fade-up">Usually performed by <emph>test engineer</emph></li>
+		<li class="fragment fade-up">Lots of potential for automation</li>
+	</ul>
+</section>
+
+<section>
+	<h3>Levels of testing</h3>
+	<ul>
+		<li class="fragment fade-up">Unit testing</li>
+		<li class="fragment fade-up">Integration testing</li>
+		<li class="fragment fade-up">System testing</li>
+		<li class="fragment fade-up">Acceptance testing</li>
+		<li class="fragment fade-up">Orthogonal: Regression testing</li>
+	</ul>
+</section>
+
+<section>
+	<h3>Unit testing</h3>
+	<ul>
+		<li class="fragment fade-up">Test individual <emph>software units</emph> (functions, classes, tasks, ...)</li>
+		<li class="fragment fade-up">Evaluated with respect to <emph>low-level unit design</emph></li>
+		<li class="fragment fade-up">Should be done as early as possible</li>
+		<li class="fragment fade-up">Sometimes even before implementation => <emph>test-driven development</emph></li>
+		<li class="fragment fade-up">Run each time a unit is modified</li>
+	</ul>
+</section>
+
+<section>
+	<h3>Integration testing</h3>
+	<ul>
+		<li class="fragment fade-up">Test software w.r.t. <emph>architectural design</emph></li>
+		<li class="fragment fade-up">Focus on integration/interaction between different modules/units</li>
+		<li class="fragment fade-up">Normally done after unit testing</li>
+	</ul>
+</section>
+
+<section>
+	<h3>System testing</h3>
+	<ul>
+		<li class="fragment fade-up">Assess software w.r.t. <emph>system-level specification</emph></li>
+		<li class="fragment fade-up">Sometimes by observing externally visible behaviour</li>
+		<li class="fragment fade-up">Usually quite late during development</li>
+	</ul>
+</section>
+
+<section>
+	<h3>Acceptance testing</h3>
+	<ul>
+		<li class="fragment fade-up">Test software w.r.t. <emph>user requirements</emph></li>
+		<li class="fragment fade-up">Usually done by both the system provider and by customer</li>
+	</ul>
+</section>
+
+<section>
+	<h1>Unit testing</h1>
+</section>
+
+<section>
+	<h3>Usual setup</h3>
+	<ol>
+		<li class="fragment fade-up">Prepare: Intialize inputs</li>
+		<li class="fragment fade-up">Test: Run implementation under test (IUT)</li>
+		<li class="fragment fade-up">Analyse: Decision (oracle) wether test was successful</li>
+	</ol>
+</section>
+
+<section>
+	<h3>Test sets and test suites</h3>
+	<ul>
+		<li class="fragment fade-up"><emph>Test set</emph> is a collection of test cases for a particular unit</li>
+		<li class="fragment fade-up"><emph>Test suite</emph> is a collection of test sets (usually for a number of units)</li>
+	</ul>
+</section>
+
+<section>
+	<h3>Example</h3>
+	<pre class="C"><code data-trim data-noescape data-line-numbers="|2|5,6,15|8|11|14|">
+		/* Unit to test */
+		extern void sort(int * arr, int len); 
+
+		/* Test case */
+		bool testSort(void) 
+		{
+			/* Initialization */
+			int a[] = { 3, -1, 5 }; 	
+
+			/* IUT invocation */
+			sort(a,3); 		
+
+			/* Oracle */
+			return (a[0] <= a[1] && a[1] <= a[2]); 		
+		}
+	</code></pre>
+</section>
+
+<section>
+	<h3>Contracts => Units</h3>
+	<pre class="C"><code data-trim data-noescape data-line-numbers="|1-5|10,11|15,16|">
+		/* 
+		 * PRE: len(arr) == len
+		 * POST: arr is sorted
+		 */
+		extern void sort(int * arr, int len); 
+
+		/* Test case */
+		bool testSort(void) 
+		{
+			/* Initialization => ensure preconditions */
+			int a[] = { 3, -1, 5 }; 	
+
+			sort(a,3); 		
+
+			/* Oracle => verify postconditions */
+			return (a[0] <= a[1] && a[1] <= a[2]); 		
+		}
+	</code></pre>
+</section>
+
+<section>
+	<h3>Oracles</h3>
+	<ul>
+		<li class="fragment fade-up">Often independent of particular test case</li>
+		<li class="fragment fade-up">Sometimes derivable (mechanically) from unit specifiction</li>
+		<li class="fragment fade-up">Oracle is essential for automation</li>
+		<li class="fragment fade-up">Quite often in practice:</li>
+		<ul>
+			<li class="fragment fade-up">Oracle just compares unit outputs with desired (expected) outputs</li>
+		</ul>
+	</ul>
+</section>
+
+<section>
+	<h3>Automation</h3>
+	<ul>
+		<li class="fragment fade-up">By using a tool we can run large collection of tests automatically</li>
+		<li class="fragment fade-up">Testing code sometimes integrated into actual code (documentation)</li>
+		<li class="fragment fade-up">Whenever we extend code we can rerun test suite (=> regression testing)</li>
+	</ul>
+</section>
+
+<section data-background-image="images/crane.jpg" data-background-opacity="0.2">
+	<h2>Test construction and coverage criteria</h2>
+</section>
+
+<section>
+	<h3>Construction of test suites</h3>
+	<ul>
+		<li class="fragment fade-up"><emph>Black box</emph> (Closed box) testing</li>
+		<ul>
+			<li class="fragment fade-up">Derive tests from external descriptions</li>
+			<li class="fragment fade-up">Without knowledge of concrete implementation</li>
+			<li class="fragment fade-up">Specifications, requirements, signatures, ...</li>
+		</ul>
+		<li class="fragment fade-up"><emph>White box</emph> (Glass box) testing</li>
+		<ul>
+			<li class="fragment fade-up">Derive tests from source code</li>
+			<li class="fragment fade-up">Branches, conditions, statements, ...</li>
+		</ul>
+	</ul>
+</section>
+
+<section>
+	<h3>Coverage</h3>
+	<ul>
+		<li class="fragment fade-up">Usually derive test suite to achieve certain notion of <emph>coverage</emph></li>
+		<li class="fragment fade-up">Input space coverage</li>
+		<li class="fragment fade-up">Control-flow graph coverage</li>
+		<li class="fragment fade-up">Logic coverage</li>
+		<li class="fragment fade-up">Mutation coverage</li>
+		<li class="fragment fade-up">Sometimes required by standard</li>
+		<li class="fragment fade-up">E.g. DO-178C (avionics) requires some level of MC/DC coverage for level A certification</li>
+	</ul>
+</section>
+
+<section>
+	<h3>Input domain modelling</h3>
+	<ul>
+		<li class="fragment fade-up">Usually achieve coverage by testing different inputs</li>
+		<li class="fragment fade-up"><emph>Input domain</emph> is the set of all possible inputs to a program</li>
+		<li class="fragment fade-up">Usually large or even infinite</li>
+		<li class="fragment fade-up">Goal is to choose finitely many inputs that still represent complete input domain</li>
+	</ul>
+</section>
+
+<section>
+	<h3>Input space partitioning</h3>
+	<ul>
+		<li class="fragment fade-up">Partition input domain into <emph>regions</emph></li>
+		<li class="fragment fade-up">Equivalence classes of values in domain w.r.t. some characteristic</li>
+		<li class="fragment fade-up">Example integer inputs</li>
+		<ul>
+			<li class="fragment fade-up">Negative</li>
+			<li class="fragment fade-up">Positive</li>
+			<li class="fragment fade-up">Zero</li>
+		</ul>
+		<li class="fragment fade-up"><emph>Coverage criterion</emph>: has each region been covered by test cases?</li>
+	</ul>
+</section>
+
+<section>
+	<h1>Structural coverage</h1>
+</section>
+
+<section>
+	<section>
+		<h3>Control-flow graph (CFG)</h3>
+		
+		<pre class="C"><code data-trim data-noescape data-line-numbers="">
+			int f(int a, int b) {
+				int z = 0;
+				while(a != 0) {
+					if(a % 2 != 0) {
+						z = z + b;
+					}
+					a = a / 2;
+					b = b * 2;
+				}
+				return z; 
+			}
+		</code></pre>
+		
+	</section>
+
+	<section>
+		<h3>Control-flow graph (CFG)</h3>
+		<div style="display: flex; align-items: center;">
+			<div class="half-part">
+			<pre class="C"><code data-trim data-noescape data-line-numbers="2">
+				int f(int a, int b) {
+					int z = 0;
+					while(a != 0) {
+						if(a % 2 != 0) {
+							z = z + b;
+						}
+						a = a / 2;
+						b = b * 2;
+					}
+					return z; 
+				}
+			</code></pre>
+			</div>
+			<div class="half-part">
+				<img class="r-stretch" src="images/cfg1.drawio.svg">
+			</div>
+		</div>
+	</section>
+
+	<section>
+		<h3>Control-flow graph (CFG)</h3>
+		<div style="display: flex; align-items: center;">
+			<div class="half-part">
+			<pre class="C"><code data-trim data-noescape data-line-numbers="3">
+				int f(int a, int b) {
+					int z = 0;
+					while(a != 0) {
+						if(a % 2 != 0) {
+							z = z + b;
+						}
+						a = a / 2;
+						b = b * 2;
+					}
+					return z; 
+				}
+			</code></pre>
+			</div>
+			<div class="half-part">
+				<img class="r-stretch" src="images/cfg2.drawio.svg">
+			</div>
+		</div>
+	</section>
+
+	<section>
+		<h3>Control-flow graph (CFG)</h3>
+		<div style="display: flex; align-items: center;">
+			<div class="half-part">
+			<pre class="C"><code data-trim data-noescape data-line-numbers="4">
+				int f(int a, int b) {
+					int z = 0;
+					while(a != 0) {
+						if(a % 2 != 0) {
+							z = z + b;
+						}
+						a = a / 2;
+						b = b * 2;
+					}
+					return z; 
+				}
+			</code></pre>
+			</div>
+			<div class="half-part">
+				<img class="r-stretch" src="images/cfg3.drawio.svg">
+			</div>
+		</div>
+	</section>
+
+	<section>
+		<h3>Control-flow graph (CFG)</h3>
+		<div style="display: flex; align-items: center;">
+			<div class="half-part">
+			<pre class="C"><code data-trim data-noescape data-line-numbers="10">
+				int f(int a, int b) {
+					int z = 0;
+					while(a != 0) {
+						if(a % 2 != 0) {
+							z = z + b;
+						}
+						a = a / 2;
+						b = b * 2;
+					}
+					return z; 
+				}
+			</code></pre>
+			</div>
+			<div class="half-part">
+				<img class="r-stretch" src="images/cfg4.drawio.svg">
+			</div>
+		</div>
+	</section>
+
+	<section>
+		<h3>Control-flow graph (CFG)</h3>
+		<div style="display: flex; align-items: center;">
+			<div class="half-part">
+			<pre class="C"><code data-trim data-noescape data-line-numbers="5">
+				int f(int a, int b) {
+					int z = 0;
+					while(a != 0) {
+						if(a % 2 != 0) {
+							z = z + b;
+						}
+						a = a / 2;
+						b = b * 2;
+					}
+					return z; 
+				}
+			</code></pre>
+			</div>
+			<div class="half-part">
+				<img class="r-stretch" src="images/cfg5.drawio.svg">
+			</div>
+		</div>
+	</section>
+
+	<section>
+		<h3>Control-flow graph (CFG)</h3>
+		<div style="display: flex; align-items: center;">
+			<div class="half-part">
+			<pre class="C"><code data-trim data-noescape data-line-numbers="7">
+				int f(int a, int b) {
+					int z = 0;
+					while(a != 0) {
+						if(a % 2 != 0) {
+							z = z + b;
+						}
+						a = a / 2;
+						b = b * 2;
+					}
+					return z; 
+				}
+			</code></pre>
+			</div>
+			<div class="half-part">
+				<img class="r-stretch" src="images/cfg6.drawio.svg">
+			</div>
+		</div>
+	</section>
+
+	<section>
+		<h3>Control-flow graph (CFG)</h3>
+		<div style="display: flex; align-items: center;">
+			<div class="half-part">
+			<pre class="C"><code data-trim data-noescape data-line-numbers="8">
+				int f(int a, int b) {
+					int z = 0;
+					while(a != 0) {
+						if(a % 2 != 0) {
+							z = z + b;
+						}
+						a = a / 2;
+						b = b * 2;
+					}
+					return z; 
+				}
+			</code></pre>
+			</div>
+			<div class="half-part">
+				<img class="r-stretch" src="images/cfg7.drawio.svg">
+			</div>
+		</div>
+	</section>
+
+	<section>
+		<h3>Control-flow graph (CFG)</h3>
+		<div style="display: flex; align-items: center;">
+			<div class="half-part">
+			<pre class="C"><code data-trim data-noescape data-line-numbers="3">
+				int f(int a, int b) {
+					int z = 0;
+					while(a != 0) {
+						if(a % 2 != 0) {
+							z = z + b;
+						}
+						a = a / 2;
+						b = b * 2;
+					}
+					return z; 
+				}
+			</code></pre>
+			</div>
+			<div class="half-part">
+				<img class="r-stretch" src="images/cfg8.drawio.svg">
+			</div>
+		</div>
+	</section>
+
+	<section>
+		<h3>Control-flow graph (CFG)</h3>
+		<div style="display: flex; align-items: center;">
+			<div class="half-part">
+			<pre class="C"><code data-trim data-noescape data-line-numbers="10|">
+				int f(int a, int b) {
+					int z = 0;
+					while(a != 0) {
+						if(a % 2 != 0) {
+							z = z + b;
+						}
+						a = a / 2;
+						b = b * 2;
+					}
+					return z; 
+				}
+			</code></pre>
+			</div>
+			<div class="half-part">
+				<img class="r-stretch" src="images/cfg9.drawio.svg">
+			</div>
+		</div>
+	</section>
+</section>
+
+<section>
+	<h3>Common notions in CFGs</h3>
+	<ul>
+		<li class="fragment fade-up"><emph>Execution path</emph></li>
+		<ul>
+			<li class="fragment fade-up">Path through CFG that starts at entry point</li>
+			<li class="fragment fade-up">Either at (one of) the exit point(s)</li>
+			<li class="fragment fade-up">Or is infinite</li>
+		</ul>
+		<li class="fragment fade-up"><emph>Path condition</emph></li>
+		<ul>
+			<li class="fragment fade-up">Condition for an execution path p within code c such that c executes p if path condition holds</li>
+		</ul>
+		<li class="fragment fade-up"><emph>Feasible execution path</emph></li>
+		<ul>
+			<li class="fragment fade-up">Execution path for which a satisfiable path condition exists</li>
+		</ul>
+	</ul>
+</section>
+
+<section>
+	<h3>Statement coverage</h3>
+	<ul>
+		<li class="fragment fade-up">A test suite achieves <emph>statement coverage</emph> if throughout the execution of all tests every node in the CFG is executed at least once</li>
+		<li class="fragment fade-up">Often quantified: e.g. 80% statement coverage</li>
+		<li class="fragment fade-up">Can this always be achieved?</li>
+	</ul>
+</section>
+
+<section>
+	<h3>Counter example</h3>
+	<pre class="C"><code data-trim data-noescape data-line-numbers="|7|">
+		int x;
+		if (x > 0)
+		{
+			int y = x;
+			if (y < 0) 
+			{
+				printf("%d\n", y); 
+			}
+		}
+	</code></pre>
+</section>
+
+<section>
+	<h3>Branch coverage</h3>
+
+	<ul>
+		<li class="fragment fade-up">A test suite achieves <emph>branch coverage</emph> if throughout the execution of all tests every edge in the CFG is taken at least once</li>
+		<li class="fragment fade-up">Branch coverage subsumes statement coverage</li>
+		<ul>
+			<li class="fragment fade-up">If a test suite achieves BC it automatically also achieves SC</li>
+		</ul>
+	</ul>
+</section>
+
+<section>
+	<h3>Path coverage</h3>
+	<ul>
+		<li class="fragment fade-up">A test suite achieves <emph>path coverage</emph> if throughout the execution of all tests each possible path in the CFG is executed at least once</li>
+		<li class="fragment fade-up">Path coverage subsumes branch coverage</li>
+		<li class="fragment fade-up">Path coverage cannot be achieved in practice</li>
+		<ul>
+			<li class="fragment fade-up">Number of paths is too large</li>
+			<li class="fragment fade-up">E.g. in our example we have $\approx 2^{31}$ feasible paths</li>
+			<li class="fragment fade-up">Paths might be infeasible</li>
+		</ul>
+	</ul>
+</section>
+
+<section>
+	<h3>Decision coverage</h3>
+	<ul>
+		<li class="fragment fade-up"><emph>Decision</emph> $D(p)$ in a program p</li>
+		<ul>
+			<li class="fragment fade-up">Set of <emph>maximum</emph> boolean expressions in p</li>
+		</ul>
+		<li class="fragment fade-up">E.g. conditions of if, while, ...</li>
+		<li class="fragment fade-up">But also statements like $A = (B \land (x \geq 0))$</li>
+		<li class="fragment fade-up">Maximum in the sense that $(B \land (x \geq 0))$ is a decision, $B$ and $(x \geq 0)$ are not</li>
+	</ul>
+</section>
+
+<section>
+	<h3>Decision coverage</h3>
+	<ul>
+		<li>Multiple occurances of the same expression are counted as different decisions</li>
+	</ul>
+	<pre class="C"><code data-trim data-noescape data-line-numbers="">
+		if (x >= 0) { /* ... */ }
+
+		/* ... */ 
+
+		if (x >= 0) { /* ... */ }
+	</code></pre>
+</section>
+
+<section>
+	<h3>Decision coverage</h3>
+	<ul>
+		<li class="fragment fade-up">For a given decision $d$ <emph>decision coverage</emph> is satisfied if it contains at least one test where d evaluates to true and one where d evaluates to false</li>
+		<li class="fragment fade-up">A test suite achieves decision coverage for a program $p$ if it achieves decision coverage for every decision $d$ in $D(p)$</li>
+	</ul>
+</section>
+
+<section>
+	<h3>Example - decision coverage</h3>
+	<ul>
+		<li class="fragment fade-up">int a, b, m, n, o</li>
+		<li class="fragment fade-up">bool D</li>
+		<li class="fragment fade-up"> $((a < b) \lor D) \land (m \geq n * o)$ </li>
+		<li class="fragment fade-up">Inputs to achieve DC?</li>
+		<li class="fragment fade-up">Need 2 tests:</li>
+		<ul>
+			<li class="fragment fade-up">(a = 5, b = 10, D = true, m = 1, n = 1, o = 1)</li>
+			<li class="fragment fade-up">(a = 10, b = 5, D = false, m = 1, n = 1, o = 1)</li>
+		</ul>
+	</ul>
+</section>
+
+<section>
+	<h3>Condition coverage</h3>
+	<ul>
+		<li class="fragment fade-up"><emph>Conditions</emph> $C(p)$ of a program $p$ are the set of atomic boolean expressions in $p$</li>
+		<li class="fragment fade-up">E.g. in the decision $((a < b) \lor D) \land (m \geq n * o)$ the conditions are $(a < b)$, $D$, and $(m \geq n * o)$</li>
+		<li class="fragment fade-up">A test suite achieves <emph>condition coverage</emph> if each condition $c$ in program $p$ evaluates at least once to true and once to false</li>
+	</ul>
+</section>
+
+<section>
+	<h3>Modified condition decision coverage (MC/DC)</h3>
+	<ul>
+		<li class="fragment fade-up">For a given condition $c$ in decision $d$, MC/DC is satisfied by a test suite if it contains one test where $c$ evaluates to false, one where it evaluates to true, $d$ evaluates differently
+			in both cases, and all other conditions in $d$ evaluate identically in both
+		</li>
+		<li class="fragment fade-up">For a given program $p$, MC/DC is satisfied by a test suite if it satisfies MC/DC for all $c$ in $C(p)$</li>
+	</ul>
+</section>
+
+<section>
+	<h1>Regression testing</h1>
+</section>
+
+<section>
+	<h3>Regression testing</h3>
+	<ul>
+		<li class="fragment fade-up">Adding new features in a program or fixing a bug might introduce new bugs</li>
+		<li class="fragment fade-up"><emph>Regressions</emph> as "collateral damage"</li>
+		<li class="fragment fade-up">Regression testing is about preventing regressions</li>
+		<li class="fragment fade-up">Regression tests should be run after every change to the program</li>
+	</ul>
+</section>
+
+<section>
+	<h3>Regression testing</h3>
+	<ul>
+		<li class="fragment fade-up">Gain confidence that modification does not cause new bugs</li>
+		<li class="fragment fade-up">When do we write regression tests?</li>
+		<ul>
+			<li class="fragment fade-up">After adding a new feature</li>
+			<li class="fragment fade-up">After fixing a bug</li>
+		</ul>
+		<li class="fragment fade-up">For bigger projects automated regression testing tools are recommended</li>
+		<li class="fragment fade-up">Related: <emph>Continuous integration</emph></li>
+	</ul>
+</section>
+
+<section>
+	<h3>Testing embedded systems</h3>
+	<ul>
+		<li class="fragment fade-up">ES often <emph>reactive</emph>, need <emph>stream</emph> of test inputs</li>
+		<li class="fragment fade-up">Realistic environment needed (or simulated)</li>
+		<li class="fragment fade-up">Important setup for embedded systems: <emph>Hardware-in-the-loop testing</emph></li>
+		<li class="fragment fade-up">Common problems</li>
+		<ul>
+			<li class="fragment fade-up">Simulation of environment is difficult</li>
+			<li class="fragment fade-up">What if simulation is too simplistic / not realistic?</li>
+			<li class="fragment fade-up">Often developed in high-level languages like Simulink, Modelica</li>
+		</ul>
+	</ul>
+</section>
+
+<section>
+	<h1>Thanks for today!</h1>
+</section>
+
+<!-- END SLIDES -->
+</div>
+</div>
+		<script src="reveal.js/dist/reveal.js"></script>
+		<script src="reveal.js/plugin/notes/notes.js"></script>
+		<script src="reveal.js/plugin/markdown/markdown.js"></script>
+		<script src="reveal.js/plugin/highlight/highlight.js"></script>
+		<script src="reveal.js/plugin/math/math.js"></script>
+		<script>
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+				hash: true,
+				controlsTutorial: false,
+				transition: 'fade', 
+				slideNumber: 'c', 
+				pdfSeparateFragments: false, 
+				navigationMode: 'linear', 
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealMath.KaTeX, RevealMarkdown, RevealHighlight, RevealNotes ]
+			});
+		</script>
+	</body>
+</html>
