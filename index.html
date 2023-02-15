@@ -311,7 +311,7 @@
 		<ul>
 			<li class="fragment fade-up">Guarded commands, non-determinancy and formal derivation of programs (Dijkstra, 1975)</li>
 		</ul>
-		<li class="fragment fade-up">Given the postcondition $Q$ and a computatio $C$, we can mechanically derive a <emph>weakest precondition</emph> $P'$</li>
+		<li class="fragment fade-up">Given the postcondition $Q$ and a computation $C$, we can mechanically derive a <emph>weakest precondition</emph> $P'$</li>
 		<li class="fragment fade-up">If $P \Rightarrow P'$ then we have proven the contract</li>
 		<li class="fragment fade-up">Example: For $\{P\}\; x := a \:\{x = 42\}$ the weakest precondition is $\{a = 42\}$</li>
 	</ul>
@@ -529,10 +529,10 @@
 		/* { x >= 5 } */
 		/* { (x - 2) * 2 > 0 /\ (x - 4) * 2 > 0 } */ 
 		if (B) 
-			/* { (x + 2) * 2 > 0 /\ B } */ 
+			/* { (x - 2) * 2 > 0 /\ B } */ 
 			x = x - 2; 
 		else 
-			/* { x * 2 + 4 > 0 /\ !B } */ 
+			/* { (x - 4) * 2 > 0 /\ !B } */
 			x = x - 4; 
 		/* { x * 2 > 0 } */ 
 		x = x / 2; 
@@ -546,10 +546,10 @@
 		/* { x >= 5 } */
 		/* { x > 4 } */ 
 		if (B) 
-			/* { x * 2 + 2 > 0 /\ B } */ 
+			/* { (x - 2) * 2 > 0 /\ B } */
 			x = x - 2; 
 		else 
-			/* { x * 2 + 4 > 0 /\ !B } */ 
+			/* { (x - 4) * 2 > 0 /\ !B } */ 
 			x = x - 4; 
 		/* { x * 2 > 0 } */ 
 		x = x / 2; 
@@ -563,10 +563,10 @@
 		/* { x >= 5 } => { x > 4 } */
 		/* { x > 4 } */ 
 		if (B) 
-			/* { x * 2 + 2 > 0 /\ B } */ 
+			/* { (x - 2) * 2 > 0 /\ B } */
 			x = x - 2; 
 		else 
-			/* { x * 2 + 4 > 0 /\ !B } */ 
+			/* { (x - 4) * 2 > 0 /\ !B } */  
 			x = x - 4; 
 		/* { x * 2 > 0 } */ 
 		x = x / 2; 
