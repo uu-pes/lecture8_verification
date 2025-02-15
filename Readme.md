@@ -1,7 +1,6 @@
-# 1DT106 Lecture 9: Verification
+# 1DT106 Lecture 8: Verification
 
-This repository holds the slides for the ninth lecture in 1DT106 Programming
-Embedded Systems at Uppsala University. 
+This repository holds the slides for the 8th lecture in 1DT106 Programming Embedded Systems at Uppsala University, 2025 edition.
 
 ## Required software 
 
@@ -16,7 +15,7 @@ In order to work with this presentation, a few things need to be installed:
 In order to clone this repository do the following: 
 
 ```bash 
-git clone --recursive https://github.com/uu-1dt106/lecture9_verification.git 
+git clone --recursive https://github.com/uu-pes/lecture8_verification.git 
 ```
 
 ## Export slides to PDF 
