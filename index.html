@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>Lecture 9</title>
+		<title>Lecture 8</title>
 
 		<link rel="shortcut icon" type="image/x-icon" href="uu_logo/UU_logo_color-cropped.ico">
 
@@ -25,8 +25,9 @@
 
 <!-- BEGIN SLIDES -->
 <section data-background-image="images/background.jpg" data-background-opacity="0.2">
-	<h1>Lecture 9</h1>
-	<p>Nikolaus Huber</p>
+	<h1>Lecture 8</h1>
+	<p>Paul Fiterau</p>
+	<footer>Based on slides by Nikolaus Huber</footer>
 </section>
 
 <section data-background-image="images/bug.jpg" data-background-opacity="0.2">
@@ -59,7 +60,7 @@
 		<li class="fragment fade-up">There are also mixed approaches</li>
 		<ul>
 			<li class="fragment fade-up">Automatic test generation from code structure</li>
-			<li class="fragment fade-up">Observers</li>
+			<li class="fragment fade-up">E.g., <emph>symbolic execution</emph> generates a test case for each program path</li>
 		</ul>
 	</ul>
 </section>
@@ -125,6 +126,12 @@
 	</ul>
 </section>
 
+
+<section>
+	<h3>Techniques</h3>
+	<img class="r-stretch" src="images/verification_techniques.webp">
+</section>
+
 <section>
 	<h3>Deductive Verification</h3>
 	<ul>
@@ -132,12 +139,21 @@
 		<li class="fragment fade-up">Requires <emph>expertise + high effort</emph></li>
 		<ul>
 			<li class="fragment fade-up">Usually need to annotate programs (invariants, ...)</li>
-			<li class="fragment fade-up">Development philosophy ("Formal methods")</li>
+			<li class="fragment fade-up">Common development philosophy (e.g., used in B-method)
+				<br/>
+				<img class="r-stretch" src="images/formal_methods.webp">
+			</li>
 		</ul>
 		<li class="fragment fade-up">Success stories:</li>
 		<ul>
-			<li class="fragment fade-up">L4 kernel</li>
-			<li class="fragment fade-up">Paris Métro 14 (driverless)</li>
+			<li class="fragment fade-up">seL4 L4 microkernel (~8000 LoC)</li>
+				<div style="margin-top: 1rem" class="fragment fade-up citation">
+					<div class="cite">The cost of the proof is higher, in total about 20 py.
+					</div>
+					<div class="source">
+						seL4: Formal Verification of an OS Kernel
+					</div>
+				</div>
 		</ul>
 	</ul>
 </section>
@@ -151,7 +167,7 @@
 			<li class="fragment fade-up">Absence of arithmetic overflows</li>
 			<li class="fragment fade-up">Absence of runtime exceptions</li>
 		</ul>
-		<li class="fragment fade-up">Automatic, scalable, widely used by compilers</li>
+		<li class="fragment fade-up">Automatic, scalable, widely used by compilers (e.g., for optimizations)</li>
 		<li class="fragment fade-up">Success stories</li>
 		<ul>
 			<li class="fragment fade-up">Astrée could verify primary flight control system of Airbus A340, A380</li>
@@ -176,17 +192,51 @@
 	<h3>Heuristic bug finders</h3>
 	<ul>
 		<li class="fragment fade-up">Usually based on a combination of mentioned methods</li>
-		<li class="fragment fade-up">Mainly focussing on <emph>implicit</emph> specifications</li>
+		<li class="fragment fade-up">Mainly focussing on <emph>implicit</emph> specifications
+			
+		</li>
 		<li class="fragment fade-up">Sometimes difficult to only report <emph>genuine</emph> bugs</li>
-		<li class="fragment fade-up">Related to <emph>fuzzing</emph></li>
 	</ul>
 </section>
 
 <section>
+	<h3>Example - Clang</h3>
+	<pre class="C">
+		<code data-trim data-noescape data-line-numbers="|2|">
+			void f(void) {
+			   int * x = malloc(10 * sizeof(int));
+			}            
+			int main(void) {
+			   f();
+			   return 0;
+			}
+	</code>
+	</pre>
+	<pre class="bash">
+		<code class="fragment fade-up" data-trim data-noescape>
+			clang --analyze main.c
+		</code>
+	</pre>
+	<pre class="bash">
+		<code class="fragment fade-up" data-trim data-noescape>
+		main.c:5:11: warning: Value stored to 'x' during its initialization is never read [deadcode.DeadStores]
+    5 |      int* x = malloc(10 * sizeof(int));
+      |           ^   ~~~~~~~~~~~~~~~~~~~~~~~~
+		main.c:6:3: warning: Potential leak of memory pointed to by 'x' [unix.Malloc]
+    6 |   }
+	</code>
+	
+	</pre>
+	
+</section>
+<section>
+	<h1>Model Checking</h1>
+</section>
+<section>
 	<h3>Transition systems</h3>
 	<ul>
 		<li class="fragment fade-up">A way of capturing the program states</li>
-		<li class="fragment fade-up">Mathemtically a tuple $(S, I, \rightarrow)$</li>
+		<li class="fragment fade-up">Mathematically a tuple $(S, I, \rightarrow)$</li>
 		<ul>
 			<li class="fragment fade-up">State space $S$</li>
 			<li class="fragment fade-up">Initial states $I \subseteq S$</li>
@@ -235,14 +285,21 @@
 		<li class="fragment fade-up">Explicitly construct graph $(S, I, \rightarrow)$</li>
 		<li class="fragment fade-up">Check reachability of error states</li>
 		<li class="fragment fade-up">Example tools: <emph>Spin</emph>, <emph>Java Path Finder</emph></li>
-		<li class="fragment fade-up">Problem: <emph>state-space explosion</emph></li>
-		<ul>
-			<li class="fragment fade-up">E.g., program with ten 32-bit integers has $\geq 2^{320}$ states</li>
-		</ul>
+		<li class="fragment fade-up">Problem: <emph>state-space explosion</emph>
+			<ul>
+				<li class="fragment fade-up">E.g., prog. with ten 32-bit integers has $\geq 2^{320}$ states</li>
+			</ul>
+		</li>
+		<li class="fragment fade-up">Several solutions exist
+			<ul>
+				<li class="fragment fade-up">E.g., based on state space abstraction, or bounding the number of steps in state exploration</li>
+				<li class="fragment fade-up">Check videos of prior course offering (link on Studium)</li>
+			</ul>
+		</li>
 	</ul>
 </section>
 
-<section>
+<!-- <section>
 	<h3>Possible solutions</h3>
 	<ul>
 		<li class="fragment fade-up">Symbolic Model Checking</li>
@@ -264,6 +321,7 @@
 		</ul>
 	</ul>
 </section>
+-->
 
 <section>
 	<h1>Deductive Verification</h1>
@@ -535,7 +593,7 @@
 			/* { (x - 4) * 2 > 0 /\ !B } */
 			x = x - 4; 
 		/* { x * 2 > 0 } */ 
-		x = x / 2; 
+		x = x * 2; 
 		/* { x > 0 } */ 
 	</code></pre>
 </section>
@@ -552,7 +610,7 @@
 			/* { (x - 4) * 2 > 0 /\ !B } */ 
 			x = x - 4; 
 		/* { x * 2 > 0 } */ 
-		x = x / 2; 
+		x = x * 2; 
 		/* { x > 0 } */ 
 	</code></pre>
 </section>
@@ -569,7 +627,7 @@
 			/* { (x - 4) * 2 > 0 /\ !B } */  
 			x = x - 4; 
 		/* { x * 2 > 0 } */ 
-		x = x / 2; 
+		x = x * 2; 
 		/* { x > 0 } */ 
 	</code></pre>
 </section>
