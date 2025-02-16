@@ -347,7 +347,7 @@
 </section>
 
 <section>
-	<h3>Background</h3>
+	<h3>Background - Hoare Logic</h3>
 	<ul>
 		<li class="fragment fade-up">At each position (state) in a program we have a set of properties that are true</li>
 		<li class="fragment fade-up">With each statement that we execute these properties change</li>
@@ -362,7 +362,7 @@
 </section>
 
 <section>
-	<h3>Background</h3>
+	<h3>Background - Weakest Precondition Calculus</h3>
 	<ul>
 		<li class="fragment fade-up">Hoare logic gives us a formalism, but no algorithm</li>
 		<li class="fragment fade-up"><emph>Weakest precondition calculus</emph></li>
@@ -415,6 +415,7 @@
 	</code></pre>
 </section>
 
+
 <section>
 	<h3>Example</h3>
 	<pre class="C"><code data-trim data-noescape data-line-numbers="">
@@ -426,6 +427,48 @@
 
 			int x = a; 
 
+			x = 2 * x;
+			/* { x + 2 > 0 } */
+			x = x + 2; 
+			/* { x > 0 } */
+			return x; 
+		}
+	</code></pre>
+</section>
+
+
+<section>
+	<h3>Example</h3>
+	<pre class="C"><code data-trim data-noescape data-line-numbers="">
+		/*
+			PRE:  a > 0
+			POST: ret > 0 
+		*/
+		int f(int a) {
+
+			int x = a; 
+
+			x = 2 * x;
+			/* { x > -2 } */
+			x = x + 2; 
+			/* { x > 0 } */
+			return x; 
+		}
+	</code></pre>
+</section>
+
+
+<section>
+	<h3>Example</h3>
+	<pre class="C"><code data-trim data-noescape data-line-numbers="">
+		/*
+			PRE:  a > 0
+			POST: ret > 0 
+		*/
+		int f(int a) {
+
+			int x = a; 
+			/* { 2 * x > -2 } */
 			x = 2 * x;
 			/* { x > -2 } */
 			x = x + 2; 
@@ -495,21 +538,35 @@
 	</code></pre>
 </section>
 
-<section>
-	<h3>Inference rules</h3>
+<section><h3>WP calculus - revisit</h3>
 	<ul>
-		<li class="fragment fade-up">Composition of statements</li>
-		<ul>
-			<li class="fragment fade-up">$\{P\}\; C_1 \;\{R\} \land \{R\} \; C_2 \;\{Q\} \Rightarrow \{P\}\:C_1; C_2\;\{Q\}$</li>
-		</ul>
+		<li class="fragment fade-up">For a computation $C$ and a postcondition $Q$, WP calculus provides us with $wp$ s.t.:
+				<div class="fragment fade-up"> $\{wp(C, Q)\}\; C\; \{Q\}$ is a valid Hoare triple</div>
+		</li>
+
+		<li class="fragment fade-up">$wp$ is computed mostly automatically</li>
+		<li  class="fragment fade-up">This allows us to verify our function $fun$ by:
+			<ol>
+				<li class="fragment fade-up">Computing $wp(fun, Post)$ </li>
+				<li class="fragment fade-up">Checking that $Pre \rightarrow wp(fun, Post)$</li>
+			</ol>
+		</li>
+	</ul>
+
+</section>
+
+
+<section>
+	<h3>WP for different computations</h3>
+	<ul>
 		<li class="fragment fade-up">Assignment</li>
-		<ul>
-			<li class="fragment fade-up">$\{Q[x \leftarrow E]\}\; x := E \; \{Q\}$</li>
-		</ul>
+		<div class="fragment fade-up">$wp(x := E, Q) = Q[x \leftarrow E]$</div>
+		<li class="fragment fade-up">Sequence of statements</li>
+		<div class="fragment fade-up">$wp(S_1;S_2, Q) = wp(S_1, wp(S_2, Q))$</div>
 		<li class="fragment fade-up">Conditional execution</li>
-		<ul>
-			<li class="fragment fade-up">$\{P \land B\}\; C_1\;\{Q\} \land \{P \land \lnot B\}\; C_2 \; \{Q\} \Rightarrow \{P\}\; \text{if}\; B \;\text{then}\; C_1\; \text{else}\; C_2\; \{Q\}$</li>
-		</ul>
+		<div class="fragment fade-up">$wp(if\; B\; then\; S_1\; else\; S_2, Q) = \\ (B \rightarrow wp(S_1, Q)) \wedge (\neg B \rightarrow wp(S_2, Q))$</div>
+			<!-- <li class="fragment fade-up">$\{P \land B\}\; C_1\;\{Q\} \land \{P \land \lnot B\}\; C_2 \; \{Q\} \Rightarrow \{P\}\; \text{if}\; B \;\text{then}\; C_1\; \text{else}\; C_2\; \{Q\}$</li> -->
+		
 	</ul>
 </section>
 
