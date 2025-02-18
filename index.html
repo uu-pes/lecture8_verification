@@ -229,9 +229,7 @@
 	</pre>
 	
 </section>
-<section>
-	<h1>Model Checking</h1>
-</section>
+
 <section>
 	<h3>Transition systems</h3>
 	<ul>
@@ -242,12 +240,16 @@
 			<li class="fragment fade-up">Initial states $I \subseteq S$</li>
 			<li class="fragment fade-up">Transitions $\rightarrow \subseteq S \times S$</li>
 		</ul>
-		<li class="fragment fade-up">Program as transition system</li>
-		<ul>
-			<li class="fragment fade-up">$S = \text{ControlLocations} \times \text{VariableValuations}$</li>
-			<li class="fragment fade-up">$I = \{\text{InitialControlState}\} \times \{\text{InitialValues}\}$</li>
-			<li class="fragment fade-up">$\rightarrow = ...$</li>
-		</ul>
+		<div class="fragment fade-up"><img class="r-stretch" src="images/transition_system.png"></div>
+	</ul>
+</section>
+
+<section>
+	<h3>Program as transition system</h3>
+	<ul>
+		<li class="fragment fade-up">$S = \text{ControlLocations} \times \text{VariableValuations}$</li>
+		<li class="fragment fade-up">$I = \{\text{InitialControlState}\} \times \{\text{InitialValues}\}$</li>
+		<li class="fragment fade-up">$\rightarrow = ...$</li>
 	</ul>
 </section>
 
@@ -564,7 +566,9 @@
 		<li class="fragment fade-up">Sequence of statements</li>
 		<div class="fragment fade-up">$wp(S_1;S_2, Q) = wp(S_1, wp(S_2, Q))$</div>
 		<li class="fragment fade-up">Conditional execution</li>
-		<div class="fragment fade-up">$wp(if\; B\; then\; S_1\; else\; S_2, Q) = \\ (B \rightarrow wp(S_1, Q)) \wedge (\neg B \rightarrow wp(S_2, Q))$</div>
+		<div class="fragment fade-up">$wp(if\; B\; then\; S_1\; else\; S_2, Q) = \\ (B \rightarrow wp(S_1, Q)) \wedge (\neg B \rightarrow wp(S_2, Q))
+			= \\(B \wedge wp(S_1, Q)) \vee (\neg B \wedge wp(S_2, Q))
+			$</div>
 			<!-- <li class="fragment fade-up">$\{P \land B\}\; C_1\;\{Q\} \land \{P \land \lnot B\}\; C_2 \; \{Q\} \Rightarrow \{P\}\; \text{if}\; B \;\text{then}\; C_1\; \text{else}\; C_2\; \{Q\}$</li> -->
 		
 	</ul>
@@ -642,7 +646,7 @@
 	<h3>Example</h3>
 	<pre class="C"><code data-trim data-noescape data-line-numbers="">
 		/* { x >= 5 } */
-		/* { (x - 2) * 2 > 0 /\ (x - 4) * 2 > 0 } */ 
+		/* { ((x - 2) * 2 > 0 /\ B) /\ ((x - 4) * 2 > 0 /\ !B)} */ 
 		if (B) 
 			/* { (x - 2) * 2 > 0 /\ B } */ 
 			x = x - 2; 
@@ -659,7 +663,7 @@
 	<h3>Example</h3>
 	<pre class="C"><code data-trim data-noescape data-line-numbers="">
 		/* { x >= 5 } */
-		/* { x > 4 } */ 
+		/* { (x > 2 /\ B) /\ (x > 4 /\ !B) } */ 
 		if (B) 
 			/* { (x - 2) * 2 > 0 /\ B } */
 			x = x - 2; 
@@ -675,8 +679,8 @@
 <section>
 	<h3>Example</h3>
 	<pre class="C"><code data-trim data-noescape data-line-numbers="">
-		/* { x >= 5 } => { x > 4 } */
-		/* { x > 4 } */ 
+		/* { x >= 5 } => { (x > 2 /\ B) /\ (x > 4 /\ !B) } */
+		/* { (x > 2 /\ B) /\ (x > 4 /\ !B) } */ 
 		if (B) 
 			/* { (x - 2) * 2 > 0 /\ B } */
 			x = x - 2; 
